@@ -12,7 +12,7 @@
     "axios": "^1.12.2",
     "dompurify": "^3.2.7",
     "marked": "^16.3.0",
-    "node": "^26.12.1",
+    "node": "^26.13.0",
     "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.5.0",
     "vant": "^4.9.21",

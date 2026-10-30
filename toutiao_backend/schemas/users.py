@@ -32,3 +32,14 @@ class UserAuthResponse(BaseModel):
         from_attributes=True,
         populate_by_name=True
     )
+
+class UserUpdate(BaseModel):
+    nickname: str = None
+    avatar: str = None
+    gender: str = None
+    bio: str = None
+    phone: str = None
+
+class UserUpdatePassword(BaseModel):
+    old_password: str = Field(..., alias="oldPassword")
+    new_password: str = Field(..., alias="newPassword")
