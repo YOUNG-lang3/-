@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from config.db_config import get_database
 from crud.users import varify_password, create_token
 from models.users import User
-from schemas.users import UserRequest, UserAuthResponse, UserInfoResponse
+from schemas.users import UserRequest, UserAuthResponse, UserInfoResponse, UserUpdate, UserUpdatePassword
 from crud import users
 from starlette import status
 
@@ -60,3 +60,19 @@ async def login(user_data: UserRequest, db: AsyncSession = Depends(get_database)
 async def get_user_info(user: User = Depends(get_current_user)):
     response_data = UserInfoResponse.model_validate(user)
     return success_response(message="获取用户信息成功", data=response_data)
+
+@router.put("/update")
+async def update_user_info(update_info: UserUpdate, user: User = Depends(get_current_user), db: AsyncSession = Depends(get_database)):
+    res = await users.update_user_info(db, update_info, user.username)
+    response_data = UserInfoResponse.model_validate(res)
+    return success_response(message="更改用户信息成功", data=response_data)
+
+# @router.put("/password")
+# async def update_user_password(user_data: UserUpdatePassword, user: User = Depends(get_current_user), db: AsyncSession = Depends(get_database)):
+#     res = await users.update_user_password(db, user_data, user.username)
+#     response_data = UserInfoResponse.model_validate(res)
+#     return success_response(message="修改密码成功", data=response_data)
+@router.put("/password")
+async def update_user_password(password_data: UserUpdatePassword, user: User = Depends(get_current_user), db: AsyncSession = Depends(get_database)):
+    await users.update_user_password(db, user, password_data)
+    return success_response(message="密码修改成功")

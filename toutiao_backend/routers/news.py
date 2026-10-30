@@ -3,7 +3,6 @@ from fastapi import HTTPException
 from fastapi import APIRouter, Depends, Query
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from typing_inspection.typing_objects import alias
 
 from config.db_config import get_database
 
