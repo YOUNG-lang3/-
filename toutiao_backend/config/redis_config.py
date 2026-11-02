@@ -1,7 +1,7 @@
 import json
 from typing import Any
 
-import redis.client as redis
+import redis.asyncio as redis
 
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
@@ -30,7 +30,7 @@ async def set_cache(key: str, value: Any, expire: int = 3600):
     try:
         if isinstance(value, (dict, list)):
             value = json.dumps(value, ensure_ascii=False)
-        await redis_client.set(key, expire, value)
+        await redis_client.set(key, value, expire)
         return True
     except Exception as e:
         print(f"设置缓存失败：{e}")
